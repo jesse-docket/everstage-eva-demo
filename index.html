@@ -257,12 +257,12 @@ async function startEvaText(){
     if (sr && [...sr.querySelectorAll('input,textarea')].some(e => /Type to Ask/i.test(e.placeholder||''))) return;
   }
 }
+/* Eva does NOT open herself. The launcher sits bottom-right exactly as it would on
+   everstage.com and the presenter clicks it. ?autostart=1 opens her into text if you
+   ever want the hands-free version. */
 (async function(){
-  if (g('autostart') === '0'){
-    if (await waitForAISeller('show')) { try{ window.AISeller.show(); }catch(e){} }
-    return;
-  }
-  await startEvaText();
+  if (await waitForAISeller('show')) { try{ window.AISeller.show(); }catch(e){} }
+  if (g('autostart') === '1') await startEvaText();
 })();
 /* The hero and header "Book a demo" open Eva rather than leaving the page. */
 async function askEva(){ await startEvaText(); }
