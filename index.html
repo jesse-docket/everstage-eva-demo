@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="en">
+<head>
+<script>
+/* Runs before the Docket loader so a reset really gets a new visitor. */
+(function(){try{var q=new URLSearchParams(location.search);if(q.get('reset')==='1'){try{localStorage.clear();sessionStorage.clear();}catch(e){}q.delete('reset');var s=q.toString();history.replaceState(null,'',location.pathname+(s?'?'+s:''));}}catch(e){}})();
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<meta name="referrer" content="no-referrer">
+<title>Everstage — demo environment</title>
+<style>
+*,*::before,*::after{box-sizing:border-box}
+:root{
+  --ink:#13110E; --paper:#FAFAF7; --plum:#41192D; --cream:#FAF9F7; --mark:#C67840;
+  --stack:"Roobert Ever",-apple-system,"Segoe UI",Inter,Arial,sans-serif;
+}
+body{margin:0;font-family:var(--stack);background:var(--paper);color:var(--ink);
+  font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+img{max-width:100%;display:block}
+
+/* demo banner, fixed, per build-plan flag 10 */
+.demobar{position:fixed;inset:0 0 auto 0;z-index:200;background:var(--ink);color:#fff;
+  font-size:12px;letter-spacing:.3px;padding:8px 16px;text-align:center}
+.demobar b{color:var(--mark);font-weight:600}
+body{padding-top:33px}
+
+.announce{background:#5B6CF5;color:#fff;font-size:13px;padding:9px 16px;text-align:center}
+.announce a{font-weight:600}
+
+header{position:sticky;top:33px;z-index:100;background:var(--paper);
+  border-bottom:1px solid rgba(19,17,14,.08)}
+header .in{max-width:1240px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;gap:30px}
+.brand{display:flex;align-items:center;gap:9px;font-weight:600;font-size:20px;letter-spacing:-.3px;text-decoration:none}
+.brand img{width:26px;height:26px}
+nav{display:flex;gap:26px;flex:1;font-size:15px}
+nav a{text-decoration:none;opacity:.88}
+nav a:hover{opacity:1}
+.actions{display:flex;align-items:center;gap:12px}
+.btn{font-family:inherit;font-size:13px;font-weight:600;letter-spacing:.6px;text-transform:uppercase;
+  padding:12px 16px;border-radius:0;text-decoration:none;cursor:pointer;white-space:nowrap;border:1px solid var(--ink)}
+.btn.ghost{background:transparent;color:var(--ink)}
+.btn.solid{background:var(--plum);color:var(--cream);border-color:var(--plum)}
+.btn.solid:hover{background:#2f1220}
+.login{font-size:15px;text-decoration:none;opacity:.88}
+@media(max-width:980px){nav{display:none}}
+
+.hero{position:relative;background:var(--ink);color:var(--cream);overflow:hidden;
+  min-height:62vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:96px 24px}
+.hero img.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.9}
+.hero .in{position:relative;z-index:1;max-width:900px}
+.hero h1{font-size:56px;line-height:1.08;letter-spacing:-1.5px;margin:0 0 22px;font-weight:600}
+.hero p{font-size:19px;opacity:.86;margin:0 auto 32px;max-width:620px}
+.hero .row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.hero .btn.ghost{border-color:rgba(250,249,247,.55);color:var(--cream)}
+.hero .btn.solid{background:var(--cream);color:var(--ink);border-color:var(--cream)}
+@media(max-width:760px){.hero h1{font-size:34px;letter-spacing:-.8px}.hero{text-align:left;min-height:auto}.hero .in{text-align:left}.hero .row{justify-content:flex-start}}
+
+.trusted{padding:52px 24px 60px;text-align:center}
+.trusted h2{font-size:12px;letter-spacing:1.6px;text-transform:uppercase;opacity:.55;font-weight:600;margin:0 0 30px}
+.logos{display:flex;flex-wrap:wrap;gap:46px;justify-content:center;align-items:center;max-width:1000px;margin:0 auto}
+.logos img{height:26px;width:auto;opacity:.72;filter:grayscale(1)}
+
+.band{background:var(--plum);color:var(--cream);padding:84px 24px}
+.band .in{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1.1fr 1fr;gap:58px;align-items:center}
+@media(max-width:900px){.band .in{grid-template-columns:1fr;gap:32px}}
+.band h2{font-size:40px;line-height:1.12;letter-spacing:-1px;margin:0 0 18px;font-weight:600}
+.band p{font-size:17px;opacity:.85;margin:0 0 14px}
+.stat{display:grid;gap:20px}
+.stat div{border-top:1px solid rgba(250,249,247,.22);padding-top:16px}
+.stat b{display:block;font-size:34px;letter-spacing:-1px;font-weight:600}
+.stat span{font-size:14px;opacity:.78}
+
+.three{max-width:1100px;margin:0 auto;padding:84px 24px}
+.three h2{font-size:38px;letter-spacing:-1px;margin:0 0 40px;font-weight:600}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+@media(max-width:900px){.cards{grid-template-columns:1fr}}
+.card{border:1px solid rgba(19,17,14,.14);padding:28px}
+.card h3{margin:0 0 10px;font-size:19px;font-weight:600}
+.card p{margin:0;font-size:15px;opacity:.78;line-height:1.55}
+
+footer{background:var(--ink);color:var(--cream);padding:56px 24px;font-size:14px}
+footer .in{max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
+footer a{opacity:.8;text-decoration:none}
+footer .note{opacity:.5;font-size:12px;max-width:520px;line-height:1.6}
+
+.reset{position:fixed;left:14px;bottom:14px;z-index:150;background:#fff;border:1px solid rgba(19,17,14,.2);
+  color:var(--ink);font-family:inherit;font-size:12px;padding:8px 12px;cursor:pointer;
+  box-shadow:0 2px 10px rgba(0,0,0,.1)}
+.reset:hover{border-color:var(--ink)}
+</style>
+</head>
+<body>
+
+<div class="demobar"><b>Demo environment</b> &nbsp;·&nbsp; Docket for Everstage &nbsp;·&nbsp; not a live Everstage site</div>
+
+<div class="announce">Revenue leaders are done waiting for AI to act. <a href="https://www.everstage.com/resources/revenue-execution" target="_blank" rel="noopener">Join Revenue Execution Week, Nov 17-19.</a></div>
+
+<header><div class="in">
+  <a class="brand" href="https://www.everstage.com/" target="_blank" rel="noopener">
+    <img src="assets/brandmark.svg" alt="">Everstage
+  </a>
+  <nav>
+    <a href="https://www.everstage.com/" target="_blank" rel="noopener">Product</a>
+    <a href="https://www.everstage.com/" target="_blank" rel="noopener">Solutions</a>
+    <a href="https://www.everstage.com/customer-stories" target="_blank" rel="noopener">Customers</a>
+    <a href="https://www.everstage.com/" target="_blank" rel="noopener">Resources</a>
+    <a href="https://www.everstage.com/pricing" target="_blank" rel="noopener">Pricing</a>
+  </nav>
+  <div class="actions">
+    <a class="login" href="https://www.everstage.com/" target="_blank" rel="noopener">Log in</a>
+    <a class="btn ghost" href="https://www.everstage.com/product-tour-hub" target="_blank" rel="noopener">Take a tour</a>
+    <button class="btn solid" type="button" onclick="askEva()">Book a demo</button>
+  </div>
+</div></header>
+
+<section class="hero">
+  <img class="bg" src="assets/hero.webp" alt="">
+  <div class="in">
+    <h1>Run Commissions On Time.<br>No Dependencies, No Errors.</h1>
+    <p>Everstage automates commissions, quoting and planning so RevOps, Finance and Sales
+       stop reconciling spreadsheets and start trusting the numbers.</p>
+    <div class="row">
+      <button class="btn solid" type="button" onclick="askEva()">Book a demo</button>
+      <a class="btn ghost" href="https://www.everstage.com/product-tour-hub" target="_blank" rel="noopener">Take a tour</a>
+    </div>
+  </div>
+</section>
+
+<section class="trusted">
+  <h2>Trusted by enterprises worldwide</h2>
+  <div class="logos">
+    <img src="assets/logo-notion.svg" alt="Notion">
+    <img src="assets/logo-glean.svg" alt="Glean">
+    <img src="assets/logo-zuora.svg" alt="Zuora">
+    <img src="assets/logo-sproutsocial.svg" alt="Sprout Social">
+    <img src="assets/logo-synthesia.svg" alt="Synthesia">
+    <img src="assets/logo-menlo.svg" alt="Menlo Security">
+    <img src="assets/logo-sectigo.svg" alt="Sectigo">
+    <img src="assets/logo-thoughtworks.svg" alt="Thoughtworks">
+  </div>
+</section>
+
+<section class="band"><div class="in">
+  <div>
+    <h2>The commission cycle is quietly eating your best people's week.</h2>
+    <p>Payouts go out and the numbers reconcile, so it looks fine. The cost sits in senior
+       time spent on calculation and dispute handling, in plan changes nobody wants to make
+       mid-quarter, and in reps who do not trust what they see.</p>
+    <p>Everstage replaces that with automated calculation, live rep visibility and an audit
+       trail finance can stand behind.</p>
+  </div>
+  <div class="stat">
+    <div><b>90%</b><span>fewer commission-related inquiries at Notion after moving off spreadsheets</span></div>
+    <div><b>99.8%</b><span>less calculation time at Hood Container, from hours per rep to minutes</span></div>
+    <div><b>92%</b><span>faster monthly processing at PayJoy across 70 plans and 7 countries</span></div>
+  </div>
+</div></section>
+
+<section class="three">
+  <h2>Three products, one platform</h2>
+  <div class="cards">
+    <div class="card"><h3>Everstage Incentives</h3>
+      <p>Commission automation for complex plans, SPIFs and accelerators, with live rep
+         statements and dispute workflows built in.</p></div>
+    <div class="card"><h3>Everstage CPQ</h3>
+      <p>Configure, price and quote in the same system that pays on the deal, so quoting and
+         commissions stop disagreeing.</p></div>
+    <div class="card"><h3>Everstage Planning</h3>
+      <p>Territory and quota planning tied to the same data, so plans are modelled against
+         what actually gets paid.</p></div>
+  </div>
+</section>
+
+<footer><div class="in">
+  <div>
+    <div style="font-weight:600;font-size:18px;margin-bottom:8px">Everstage</div>
+    <a href="https://www.everstage.com/" target="_blank" rel="noopener">everstage.com →</a>
+  </div>
+  <div class="note">
+    Demo environment built by Docket for the Everstage kickoff. This page is a replica of
+    Everstage's homepage used only to show the Eva agent in context. It is not indexed, has no
+    login, no pricing checkout and no payment or credential forms. Every navigation link opens
+    the real everstage.com. Customer logos and brand assets are Everstage's own, shown as they
+    appear on their homepage.
+  </div>
+</div></footer>
+
+<button class="reset" onclick="resetEva()">↺ Reset Eva session</button>
+
+<!-- ============ Docket widget (agent: Eva (Demo)) ============ -->
+<script>
+window.AISellerSettings = { agent_id: 'd1090379-4f9d-4062-882d-978c41cfbe3c' };
+(function () {
+  var w = window; var ew = w.AISeller;
+  if (typeof ew === 'function') { ew('update', w.AISellerSettings); }
+  else {
+    var d = document;
+    var i = function () { i.q.push(arguments); };
+    i.q = []; i.q.push(['update', w.AISellerSettings]); w.AISeller = i;
+    var l = function () {
+      var s = d.createElement('script'); s.type = 'text/javascript'; s.async = true;
+      s.src = 'https://cdn.docketai.com/script/app/inbound-se-script/ai-seller.js';
+      var x = d.getElementsByTagName('script')[0]; x.parentNode.insertBefore(s, x);
+    };
+    if (document.readyState === 'complete') { l(); }
+    else if (w.attachEvent) { w.attachEvent('onload', l); }
+    else { w.addEventListener('load', l, false); }
+  }
+})();
+</script>
+
+<script>
+const g = k => new URLSearchParams(location.search).get(k) || '';
+async function waitForAISeller(method, ms = 20000){
+  const t0 = Date.now();
+  while (Date.now() - t0 < ms){
+    if (window.AISeller && typeof window.AISeller[method] === 'function') return true;
+    await new Promise(r => setTimeout(r, 150));
+  }
+  return false;
+}
+/* Eva opens by herself on arrival. ?autostart=0 makes her wait instead. */
+(async function(){
+  if (await waitForAISeller('show')) { try{ window.AISeller.show(); }catch(e){} }
+  if (g('autostart') !== '0' && await waitForAISeller('showAndConnect')){
+    await new Promise(r => setTimeout(r, 1200));
+    try{ await window.AISeller.showAndConnect(); }catch(e){}
+  }
+})();
+/* The hero and header "Book a demo" open Eva rather than leaving the page. */
+async function askEva(){
+  if (await waitForAISeller('showAndConnect')) { try{ await window.AISeller.showAndConnect(); return; }catch(e){} }
+  if (await waitForAISeller('show')) { try{ window.AISeller.show(); }catch(e){} }
+}
+function resetEva(){
+  try{ if (window.AISeller && window.AISeller.hideAndDisconnect) window.AISeller.hideAndDisconnect(); }catch(e){}
+  try{ localStorage.clear(); sessionStorage.clear(); }catch(e){}
+  location.href = location.pathname + '?reset=1';
+}
+</script>
+</body>
+</html>
